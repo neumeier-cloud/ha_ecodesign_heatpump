@@ -1,0 +1,34 @@
+{
+  "title": "EcoDesign Heat Pumps (Modbus)",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect to EcoDesign",
+        "description": "Enter Modbus TCP connection details for your gateway/controller.",
+        "data": {
+          "host": "Host/IP",
+          "port": "Port",
+          "unit_id": "Modbus Unit ID",
+          "model": "Model",
+          "scan_interval": "Scan interval (s)"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect to the Modbus device.",
+      "unknown": "Unknown error"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Options",
+        "description": "Adjust polling interval or use a custom register profile.",
+        "data": {
+          "scan_interval": "Scan interval (s)",
+          "register_map_path": "Custom register map path (leave empty to use built-in profile)"
+        }
+      }
+    }
+  }
+}

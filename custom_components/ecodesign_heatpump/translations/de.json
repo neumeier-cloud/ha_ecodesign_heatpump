@@ -1,0 +1,34 @@
+{
+  "title": "EcoDesign Wärmepumpen (Modbus)",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Mit EcoDesign verbinden",
+        "description": "Modbus‑TCP‑Verbindungsdaten für Gateway/Regler eingeben.",
+        "data": {
+          "host": "Host/IP",
+          "port": "Port",
+          "unit_id": "Modbus Unit ID",
+          "model": "Modell",
+          "scan_interval": "Abfrageintervall (s)"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Verbindung zum Modbus‑Gerät fehlgeschlagen.",
+      "unknown": "Unbekannter Fehler"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Optionen",
+        "description": "Abfrageintervall anpassen oder eigenes Registerprofil verwenden.",
+        "data": {
+          "scan_interval": "Abfrageintervall (s)",
+          "register_map_path": "Pfad zu eigenem Registerprofil (leer = Standardprofil)"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+name: Feature request
+description: Suggest an idea for this project
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Is your feature request related to a problem?
+      description: Please describe.
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: What should the integration do?
+  - type: textarea
+    id: registers
+    attributes:
+      label: Register details (if applicable)
+      description: Addresses, types, scaling, options; attach docs or screenshots.

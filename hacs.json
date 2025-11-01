@@ -1,0 +1,15 @@
+{
+  "name": "EcoDesign Wärmepumpen",
+  "render_readme": true,
+  "homeassistant": "2024.6.0",
+  "domains": [
+    "sensor",
+    "number",
+    "select",
+    "switch",
+    "climate"
+  ],
+  "iot_class": [
+    "Local Polling"
+  ]
+}

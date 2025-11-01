@@ -1,0 +1,315 @@
+{
+  "device": {
+    "manufacturer": "EcoDesign",
+    "model": "ED300 KWL / WT KWL"
+  },
+  "registers": {
+    "sensors": [
+      {
+        "key": "evap_temp",
+        "name": "Verdampfer-Temperatur",
+        "register_type": "input",
+        "address": 7,
+        "scale": 0.1,
+        "unit": "°C"
+      },
+      {
+        "key": "ww_temp",
+        "name": "Speicher-Temperatur",
+        "register_type": "input",
+        "address": 8,
+        "scale": 0.1,
+        "unit": "°C"
+      },
+      {
+        "key": "relay_compressor",
+        "name": "Relais Kompressor",
+        "register_type": "input",
+        "address": 9
+      },
+      {
+        "key": "relay_el",
+        "name": "Relais Heizstab",
+        "register_type": "input",
+        "address": 10
+      },
+      {
+        "key": "relay_boiler",
+        "name": "Relais Kessel",
+        "register_type": "input",
+        "address": 11
+      },
+      {
+        "key": "relay_valve",
+        "name": "Relais Magnetventil",
+        "register_type": "input",
+        "address": 12
+      },
+      {
+        "key": "relay_cond",
+        "name": "Relais Kondensator",
+        "register_type": "input",
+        "address": 13
+      },
+      {
+        "key": "relay_fan",
+        "name": "Relais Lüfter",
+        "register_type": "input",
+        "address": 14
+      },
+      {
+        "key": "fan_0_10v",
+        "name": "EC-Lüfter 0-10V Rohwert",
+        "register_type": "input",
+        "address": 15
+      },
+      {
+        "key": "status_bits",
+        "name": "Status (Bitfeld)",
+        "register_type": "input",
+        "address": 16
+      },
+      {
+        "key": "rest_days",
+        "name": "Resttage (Ferien)",
+        "register_type": "input",
+        "address": 17
+      },
+      {
+        "key": "mode_code",
+        "name": "Betriebsart (Code)",
+        "register_type": "holding",
+        "address": 12
+      },
+      {
+        "key": "pv_mode_code",
+        "name": "PV-Modus (Code)",
+        "register_type": "holding",
+        "address": 17
+      },
+      {
+        "key": "fan_con_code",
+        "name": "KWL-Lüfterbetrieb (Code)",
+        "register_type": "holding",
+        "address": 16
+      }
+    ],
+    "numbers": [
+      {
+        "key": "setpoint",
+        "name": "WW Solltemperatur",
+        "register_type": "holding",
+        "address": 4,
+        "unit": "°C",
+        "min": 5,
+        "max": 62,
+        "step": 1
+      },
+      {
+        "key": "tmin",
+        "name": "T min (Sekundärfreigabe)",
+        "register_type": "holding",
+        "address": 5,
+        "unit": "°C",
+        "min": 5,
+        "max": 62,
+        "step": 1
+      },
+      {
+        "key": "t2min",
+        "name": "T2 min (Frostschutz)",
+        "register_type": "holding",
+        "address": 6,
+        "unit": "°C",
+        "min": 5,
+        "max": 62,
+        "step": 1
+      },
+      {
+        "key": "pv_wp",
+        "name": "PV-Temp WP (T.PV_WP)",
+        "register_type": "holding",
+        "address": 18,
+        "unit": "°C",
+        "min": 5,
+        "max": 62,
+        "step": 1
+      },
+      {
+        "key": "pv_el",
+        "name": "PV-Temp EL (T.PV_EL)",
+        "register_type": "holding",
+        "address": 19,
+        "unit": "°C",
+        "min": 5,
+        "max": 62,
+        "step": 1
+      },
+      {
+        "key": "tmax",
+        "name": "T max (Max. Temperatur)",
+        "register_type": "holding",
+        "address": 28,
+        "unit": "°C",
+        "min": 5,
+        "max": 62,
+        "step": 1
+      }
+    ],
+    "selects": [
+      {
+        "key": "mode",
+        "name": "Betriebsart",
+        "register_type": "holding",
+        "address": 12,
+        "options": [
+          [
+            "Aus",
+            0
+          ],
+          [
+            "Nur WP",
+            1
+          ],
+          [
+            "Nur EL",
+            2
+          ],
+          [
+            "WP+EL",
+            3
+          ],
+          [
+            "Kessel",
+            4
+          ],
+          [
+            "WP+Kessel",
+            5
+          ]
+        ]
+      },
+      {
+        "key": "fan_con",
+        "name": "KWL (Lüfter im Bereitschaftsmodus)",
+        "register_type": "holding",
+        "address": 16,
+        "options": [
+          [
+            "Aus",
+            0
+          ],
+          [
+            "EC LS1",
+            1
+          ],
+          [
+            "EC LS2",
+            2
+          ],
+          [
+            "EC LS3",
+            3
+          ]
+        ]
+      },
+      {
+        "key": "pv_mode",
+        "name": "PV-Modus (Smart Grid)",
+        "register_type": "holding",
+        "address": 17,
+        "options": [
+          [
+            "Aus",
+            0
+          ],
+          [
+            "Nur WP",
+            1
+          ],
+          [
+            "Nur EL",
+            2
+          ],
+          [
+            "WP+EL",
+            3
+          ]
+        ]
+      },
+      {
+        "key": "fan_pause",
+        "name": "Lüfterunterbrechung (VenPause)",
+        "register_type": "holding",
+        "address": 23,
+        "options": [
+          [
+            "Aus",
+            0
+          ],
+          [
+            "30m/15s",
+            1
+          ],
+          [
+            "30m/30s",
+            2
+          ],
+          [
+            "60m/15s",
+            3
+          ],
+          [
+            "60m/30s",
+            4
+          ],
+          [
+            "90m/15s",
+            5
+          ],
+          [
+            "90m/30s",
+            6
+          ]
+        ]
+      },
+      {
+        "key": "legio_auto",
+        "name": "Legionellen-Automatik",
+        "register_type": "holding",
+        "address": 13,
+        "options": [
+          [
+            "Aus",
+            0
+          ],
+          [
+            "60°C",
+            1
+          ],
+          [
+            "65°C",
+            2
+          ]
+        ]
+      }
+    ],
+    "switches": [
+      {
+        "key": "boost",
+        "name": "Boost",
+        "register_type": "holding",
+        "address": 22
+      }
+    ],
+    "climate": {
+      "key": "wh",
+      "name": "Warmwasser",
+      "setpoint_register": 4,
+      "current_temp_key": "ww_temp",
+      "min_temp": 5,
+      "max_temp": 62,
+      "precision": 1
+    }
+  }
+}
