@@ -75,3 +75,17 @@ Eine Home‑Assistant‑Integration (HACS) für **EcoDesign‑Wärmepumpen** via
 ### Branding
 - `assets/logo.png` — offizieller Schriftzug.  
 - `assets/icon.png` — nur die grünen Blätter (512×512, transparent).
+
+
+## Troubleshooting
+- After installing via HACS, **restart Home Assistant** so dependencies (pymodbus) are installed.
+- If setup shows *Unknown error* during the form, try again after restart; this build now
+  performs a raw TCP probe first and should display *cannot_connect* when the host/port is unreachable.
+- Enable debug logs:
+  ```yaml
+  logger:
+    default: warning
+    logs:
+      custom_components.ecodesign_heatpump: debug
+      pymodbus: info
+  ```

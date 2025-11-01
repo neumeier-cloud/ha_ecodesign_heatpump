@@ -20,7 +20,42 @@ from .const import (
     DEFAULT_SCAN_INTERVAL,
     DEFAULT_MODEL,
 )
-from .coordinator import ED300Probe
+
+async def _probe_modbus_tcp(host: str, port: int, unit_id: int) -> None:
+    """Try to connect to Modbus TCP endpoint.
+
+    We import pymodbus lazily here to avoid import errors before HA restarts.
+    If pymodbus is not yet available, we still do a raw TCP probe to ensure
+    at least the socket is reachable.
+    """
+    try:
+        from pymodbus.client import AsyncModbusTcpClient  # type: ignore
+    except Exception:
+        # fallback: raw TCP connect with asyncio open_connection
+        try:
+            reader, writer = await asyncio.wait_for(asyncio.open_connection(host, port), timeout=5.0)
+            writer.close()
+            try:
+                await writer.wait_closed()
+            except Exception:
+                pass
+        except Exception as err:
+            raise asyncio.TimeoutError(str(err))
+    else:
+        client = AsyncModbusTcpClient(host=host, port=port, timeout=5)
+        try:
+            await client.connect()
+            # minimal read to validate slave answers; some gateways allow 0-count illegal,
+            # so we read 1 input register at address 0 safely guarded.
+            rr = await client.read_input_registers(address=0, count=1, unit=unit_id)
+            if rr.isError():  # device could still be fine; connectivity is proven
+                return
+        finally:
+            try:
+                await client.close()
+            except Exception:
+                pass
+
 
 class ED300ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     VERSION = 1
@@ -33,9 +68,8 @@ class ED300ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             host = user_input[CONF_HOST]
             port = user_input[CONF_PORT]
             unit_id = user_input[CONF_UNIT_ID]
-            model = user_input[CONF_MODEL]
             try:
-                await ED300Probe.async_test_connection(host, port, unit_id)
+                await _probe_modbus_tcp(host, port, unit_id)
             except asyncio.TimeoutError:
                 errors["base"] = "cannot_connect"
             except Exception:
@@ -57,6 +91,7 @@ class ED300ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     @callback
     def async_get_options_flow(self, config_entry: config_entries.ConfigEntry):
         return ED300OptionsFlow(config_entry)
+
 
 class ED300OptionsFlow(config_entries.OptionsFlow):
     def __init__(self, config_entry: config_entries.ConfigEntry) -> None:
