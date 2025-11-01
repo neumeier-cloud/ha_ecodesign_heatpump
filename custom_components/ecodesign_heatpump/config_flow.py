@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import asyncio
 from typing import Any
+import logging
 
 import voluptuous as vol
 from homeassistant import config_entries
@@ -21,41 +22,20 @@ from .const import (
     DEFAULT_MODEL,
 )
 
-async def _probe_modbus_tcp(host: str, port: int, unit_id: int) -> None:
-    """Try to connect to Modbus TCP endpoint.
+_LOGGER = logging.getLogger(__name__)
 
-    We import pymodbus lazily here to avoid import errors before HA restarts.
-    If pymodbus is not yet available, we still do a raw TCP probe to ensure
-    at least the socket is reachable.
-    """
+async def _probe_tcp(host: str, port: int) -> None:
+    """Raw TCP connect test to avoid dependency timing issues."""
     try:
-        from pymodbus.client import AsyncModbusTcpClient  # type: ignore
-    except Exception:
-        # fallback: raw TCP connect with asyncio open_connection
+        reader, writer = await asyncio.wait_for(asyncio.open_connection(host, port), timeout=5.0)
+        writer.close()
         try:
-            reader, writer = await asyncio.wait_for(asyncio.open_connection(host, port), timeout=5.0)
-            writer.close()
-            try:
-                await writer.wait_closed()
-            except Exception:
-                pass
-        except Exception as err:
-            raise asyncio.TimeoutError(str(err))
-    else:
-        client = AsyncModbusTcpClient(host=host, port=port, timeout=5)
-        try:
-            await client.connect()
-            # minimal read to validate slave answers; some gateways allow 0-count illegal,
-            # so we read 1 input register at address 0 safely guarded.
-            rr = await client.read_input_registers(address=0, count=1, unit=unit_id)
-            if rr.isError():  # device could still be fine; connectivity is proven
-                return
-        finally:
-            try:
-                await client.close()
-            except Exception:
-                pass
-
+            await writer.wait_closed()
+        except Exception:  # pragma: no cover
+            pass
+    except Exception as err:
+        # Re-raise for caller to map to cannot_connect
+        raise asyncio.TimeoutError(str(err))
 
 class ED300ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     VERSION = 1
@@ -69,11 +49,13 @@ class ED300ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             port = user_input[CONF_PORT]
             unit_id = user_input[CONF_UNIT_ID]
             try:
-                await _probe_modbus_tcp(host, port, unit_id)
-            except asyncio.TimeoutError:
+                await _probe_tcp(host, port)
+            except asyncio.TimeoutError as err:
+                _LOGGER.warning("TCP probe failed %s:%s -> %s", host, port, err)
                 errors["base"] = "cannot_connect"
-            except Exception:
-                errors["base"] = "unknown"
+            except Exception as err:  # ultra safe
+                _LOGGER.exception("Unexpected error during config flow probe: %s", err)
+                errors["base"] = "cannot_connect"
             else:
                 await self.async_set_unique_id(f"{host}:{port}:{unit_id}")
                 self._abort_if_unique_id_configured()
@@ -91,7 +73,6 @@ class ED300ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     @callback
     def async_get_options_flow(self, config_entry: config_entries.ConfigEntry):
         return ED300OptionsFlow(config_entry)
-
 
 class ED300OptionsFlow(config_entries.OptionsFlow):
     def __init__(self, config_entry: config_entries.ConfigEntry) -> None:

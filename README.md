@@ -89,3 +89,5 @@ Eine Home‑Assistant‑Integration (HACS) für **EcoDesign‑Wärmepumpen** via
       custom_components.ecodesign_heatpump: debug
       pymodbus: info
   ```
+
+- Config flow now uses raw TCP probe only; any failure maps to `cannot_connect` instead of `unknown`.
