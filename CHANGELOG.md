@@ -22,3 +22,8 @@
 - Config-Flow nutzt weiterhin rohen TCP-Probe und zeigt bei Nichterreichbarkeit `cannot_connect` statt „Unbekannter Fehler“.
 
 
+## [0.1.2] - YYYY-MM-DD
+### Fixed
+- Setup flow no longer fails if the initial coordinator refresh cannot read registers.
+- Per-register read errors are logged and skipped instead of aborting the whole update.
+
