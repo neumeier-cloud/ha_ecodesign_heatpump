@@ -38,6 +38,10 @@ A custom Home Assistant integration (HACS) to connect **EcoDesign heat pumps (ED
 
 > The device speaks **Modbus RTU (RS‑485)**. Use a Modbus/TCP gateway for IP connectivity. Check polarity on CN11: Port 3 = B (−), Port 4 = A (+).
 
+## 🖼️ Branding
+- `assets/logo.png` — official brand wordmark (provided by customer).
+- `assets/icon.png` — green leaves only (transparent 512×512).
+
 ## 📄 License
 MIT
 
