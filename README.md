@@ -1,6 +1,6 @@
 # EcoDesign Heat Pumps (Modbus) — Home Assistant (HACS)
 
-[![release](https://img.shields.io/badge/release-v0.1.0-blue)](https://github.com/neumeier-cloud/ha_ecodesign_heatpump/releases)
+[![release](https://img.shields.io/badge/release-v0.1.1-blue)](https://github.com/neumeier-cloud/ha_ecodesign_heatpump/releases)
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://hacs.xyz)
 
