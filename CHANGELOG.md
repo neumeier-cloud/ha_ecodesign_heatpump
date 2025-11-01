@@ -13,3 +13,12 @@
 ### Notes
 - Device uses Modbus RTU (RS-485); connect via Modbus/TCP gateway.
 - Register addresses may differ by firmware; adjust the profile as needed.
+
+
+## [0.1.1] - 2025-11-01
+### Fixed
+- Verhindert **500 Internal Server Error** beim Öffnen des Konfigurationsflusses:
+  Lazy-Import des Coordinators/`pymodbus` in `async_setup_entry` (kein Top-Level-Import mehr).
+- Config-Flow nutzt weiterhin rohen TCP-Probe und zeigt bei Nichterreichbarkeit `cannot_connect` statt „Unbekannter Fehler“.
+
+

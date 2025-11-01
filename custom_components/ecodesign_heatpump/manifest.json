@@ -1,7 +1,7 @@
 {
   "domain": "ecodesign_heatpump",
-  "name": "EcoDesign Wärmepumpen",
-  "version": "0.1.0",
+  "name": "EcoDesign Heatpump",
+  "version": "0.1.1",
   "documentation": "https://github.com/neumeier-cloud/ha_ecodesign_heatpump",
   "issue_tracker": "https://github.com/neumeier-cloud/ha_ecodesign_heatpump/issues",
   "codeowners": [
